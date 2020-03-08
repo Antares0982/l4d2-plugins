@@ -41,7 +41,6 @@ public Action:Event_PlayerHurt(Handle:event, const String:name[], bool:dontBroad
 	new dmg = GetEventInt(event, "dmg_health");
 	new dmgtype = GetEventInt(event, "type");
 	new returnbotdmg = GetConVarInt(ff_returnbotdamage);
-	if(!IsClientActual(victim)){PrintToServer("bot!!!!!!");}
 	if(dmg > 0 && IsClientActual(victim) && (returnbotdmg == 1 || !IsFakeClient(victim)) && IsClientActual(attacker) && victim != attacker && (GetClientTeam(victim) == GetClientTeam(attacker)) && !IsFireDamage(dmgtype))
 	{
 		friendlyFire[attacker] += dmg;
