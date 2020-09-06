@@ -32,7 +32,7 @@ public Action:Event_PlayerHurt(Handle:event, const String:name[], bool:dontBroad
 		if(CurrentReviveCount > 0)
 		{
 			new Float:dmgfloat = dmg * 1.0;
-			healthbuff+=dmgfloat;
+			healthbuff += dmgfloat;
 			if(healthbuff > 100.0){SetEntPropFloat(attacker, Prop_Send, "m_healthBuffer", 100.0);}
 			else{SetEntPropFloat(attacker, Prop_Send, "m_healthBuffer", healthbuff);}
 		}

@@ -5,9 +5,9 @@
 
 public Plugin myinfo = 
 {
-	name = "Return Damage",
+	name = "Friendly Fire Return Damage",
 	author = "Antares",
-	description = "Return Damage",
+	description = "Friendly Fire will give return damage to the attacker",
 	version = "1.0"
 };
 
@@ -23,9 +23,9 @@ new DMG_BURN = 8;
 public OnPluginStart()
 {
 	ff_limit = CreateConVar("l4d_damage_fflimit", "5", "dmg limit, friendly fire greater than this limit will cause return damage", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 1.0, true, 100.0);
-	ff_incapacitate = CreateConVar("l4d_damage_ffincapacitate", "1", "If this parameter = 1, friendly fire will incapacitate player", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	ff_kick = CreateConVar("l4d_damage_ffkick", "0", "If this parameter = 1, server will kick player if friendly fire is higher than friendly fire limit", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 0.0, true, 1.0);
-	ff_kicklimit = CreateConVar("l4d_damage_ffkicklimit", "2000", "Player who caused friendly fire higher than this parameter will get kicked if ff_kick = 1", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 100.0, true, 2000.0);
+	ff_incapacitate = CreateConVar("l4d_damage_ffincapacitate", "1", "If this parameter = 1, friendly fire will incapacitate attacker", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	ff_kick = CreateConVar("l4d_damage_ffkick", "0", "If this parameter = 1, server will kick player if total friendly fire is higher than friendly fire limit", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 0.0, true, 1.0);
+	ff_kicklimit = CreateConVar("l4d_damage_ffkicklimit", "2000", "Player who caused total friendly fire higher than this parameter will get kicked if ff_kick = 1", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 100.0, true, 2000.0);
 	ff_returnbotdamage = CreateConVar("l4d_damage_returnbotdmg", "0", "Shoot bot will get hurt if this parameter = 1", FCVAR_REPLICATED|FCVAR_GAMEDLL|FCVAR_NOTIFY, true, 0.0, true, 1.0);
 	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_Pre);
 	AutoExecConfig(true, "return_dmg");
@@ -49,15 +49,15 @@ public Action:Event_PlayerHurt(Handle:event, const String:name[], bool:dontBroad
 		new ff_inc = GetConVarInt(ff_incapacitate);
 		new ffkick = GetConVarInt(ff_kick);
 		new ffkicklimit = GetConVarInt(ff_kicklimit);
-		if(friendlyFire[attacker]>=ff)
+		if(friendlyFire[attacker] >= ff)
 		{
 			new health = GetEntProp(attacker, Prop_Send, "m_iHealth");
-			new return_dmg=0;
+			new return_dmg = 0;
 			new Float:floathealthbuff = GetEntPropFloat(attacker, Prop_Send, "m_healthBuffer");
-			while(friendlyFire[attacker]>=ff)
+			while(friendlyFire[attacker] >= ff)
 			{
 				return_dmg++;
-				friendlyFire[attacker]-=ff;
+				friendlyFire[attacker] -= ff;
 			}
 			if(ffkick == 1 && totalFriendlyFire[attacker] > ffkicklimit)
 			{
