@@ -83,6 +83,8 @@ pkgs.stdenvNoCC.mkDerivation {
     "$compiler" -i"$includes" gear/scripting/l4d_gear_transfer.sp -ocompiled/l4d_gear_transfer.smx
     "$compiler" -i"$includes" "change/left 4 fix/l4d2_levelchanging/scripting/l4d2_changelevel.sp" \
       -ocompiled/l4d2_changelevel.smx
+    "$compiler" -i"$includes" -i"$PWD/hooks/sourcemod/scripting/include" \
+      multi/hp_tank_show/scripting/hp_tank_show.sp -ocompiled/hp_tank_show.smx
     runHook postBuild
   '';
   installPhase = ''
@@ -110,7 +112,7 @@ pkgs.stdenvNoCC.mkDerivation {
     runHook preInstallCheck
     for plugin in acs broadcast newplayerremind door_kill ff_static tankhp_modified \
       l4d2_mission_manager l4d_gear_transfer l4d2_changelevel \
-      left4dhooks l4dmultislots l4d_CreateSurvivorBot; do
+      left4dhooks l4dmultislots l4d_CreateSurvivorBot hp_tank_show; do
       test -s "$out/addons/sourcemod/plugins/$plugin.smx"
     done
     test -s "$out/addons/l4dtoolz.so"

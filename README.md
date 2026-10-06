@@ -110,7 +110,9 @@ nix flake check
 `left4dead2/` 的 `addons/`、`cfg/` 目录。构建六个主插件，不包含
 `backupPlugin/`；同时打包固定版本的 Metamod、SourceMod、L4DToolZ、
 Mission Manager、Left4DHooks、Gear Transfer、MultiSlots、CreateSurvivorBot
-和 Proper Changelevel，以及所需翻译和 gamedata。
+和 Proper Changelevel，以及所需翻译和 gamedata。另从固定版本源码编译
+`hp_tank_show`：Tank 受伤时在头顶显示由绿变红的血量指示条，
+使用已有 Left4DHooks 依赖，不改变 `tankhp_modified` 的人数血量规则。
 
 `package.nix` 固定第三方下载地址及哈希；自写插件直接从本仓库源码编译，
 不使用内置旧版 `spcomp`。修改源码后重新构建；更新依赖时修改对应地址和
